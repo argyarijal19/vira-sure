@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Untuk Vira</title>
+
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at center, #0f172a, #020617);
+  color: white;
+}
+
+/* 🌌 ambient light */
+.bg-glow {
+  position: fixed;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,0,100,0.08), transparent 60%);
+  animation: moveGlow 10s infinite alternate ease-in-out;
+}
+@keyframes moveGlow {
+  from { transform: translate(-10%, -10%); }
+  to { transform: translate(10%, 10%); }
+}
+
+/* ❤️ floating hearts */
+.heart {
+  position: absolute;
+  color: #fb7185;
+  opacity: 0.4;
+  animation: floatUp linear infinite;
+}
+@keyframes floatUp {
+  from { transform: translateY(100vh) scale(0.5); opacity: 0; }
+  to { transform: translateY(-10vh) scale(1.2); opacity: 1; }
+}
+
+/* 🔐 lock */
+.lock {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.lock.fade {
+  opacity: 0;
+  pointer-events: none;
+  transition: 1s;
+}
+
+.lock-box {
+  background: rgba(255,255,255,0.05);
+  padding: 30px;
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+}
+
+/* container */
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* card */
+.card {
+  width: 90%;
+  max-width: 420px;
+  padding: 30px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(16px);
+  text-align: center;
+  box-shadow: 0 0 80px rgba(255,0,100,0.15);
+  animation: fadeIn 0.6s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* 💓 heartbeat image */
+.hero-img {
+  width: 220px;
+  height: 220px;
+  border-radius: 20px;
+  object-fit: cover;
+  margin-bottom: 20px;
+  animation: beat 1.5s infinite;
+}
+@keyframes beat {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* typing text */
+.text {
+  min-height: 60px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+button {
+  margin-top: 25px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  background: #e11d48;
+  color: white;
+}
+
+/* final */
+.final {
+  font-size: 28px;
+  text-align: center;
+  animation: fadeIn 2s;
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg-glow"></div>
+
+<!-- hearts -->
+<script>
+for (let i = 0; i < 35; i++) {
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.innerHTML = "❤";
+  h.style.left = Math.random() * 100 + "vw";
+  h.style.fontSize = (10 + Math.random()*20)+"px";
+  h.style.animationDuration = (5 + Math.random()*5)+"s";
+  document.body.appendChild(h);
+}
+</script>
+
+<!-- lock -->
+<div id="lockScreen" class="lock">
+  <div class="lock-box">
+    <h2>Kalau ini memang kamu…</h2>
+    <input type="password" id="keyInput">
+    <button onclick="unlock()">Masuk</button>
+  </div>
+</div>
+
+<!-- music -->
+<audio id="bgm" loop>
+  <source src="./sound.mp3">
+</audio>
+
+<div class="container" id="container"></div>
+
+<script>
+const SECRET_KEY = "vira";
+
+function unlock(){
+  const input = document.getElementById("keyInput").value.toLowerCase();
+  const audio = document.getElementById("bgm");
+
+  if(input === SECRET_KEY){
+    document.getElementById("lockScreen").classList.add("fade");
+
+    audio.volume = 0;
+    audio.play();
+
+    let vol = 0;
+    const fade = setInterval(()=>{
+      if(vol < 0.3){
+        vol += 0.01;
+        audio.volume = vol;
+      } else clearInterval(fade);
+    },100);
+  }
+}
+
+/* typing effect */
+function typeText(el, text, speed=30){
+  let i=0;
+  el.innerHTML="";
+  const interval = setInterval(()=>{
+    el.innerHTML += text[i];
+    i++;
+    if(i>=text.length) clearInterval(interval);
+  },speed);
+}
+
+/* story */
+const steps = [
+{
+title: "Hai Vira Ainul Wahdah",
+text: "Aku ga tau ini bakal cukup atau engga… tapi aku cuma pengen kamu denger aku sekali ini aja, pelan-pelan."
+},
+{
+title: "Aku ngerti kamu",
+text: "Kalau kamu takut… kalau kamu ragu… itu bukan hal yang salah, aku ngerti kok, dan itu wajar banget buat kamu, yang udah tau masa lalu aku gimana"
+},
+{
+title: "Dan jujur",
+text: "Kalau aku di posisi kamu, mungkin aku juga bakal ngerasa hal yang sama."
+},
+{
+title: "Tentang aku",
+text: "Aku udah ga akan nutupin masa lalu aku… atau nutupin apapun yang ada di dalam diri aku, karena itu emang ada."
+},
+{
+title: "Tapi satu hal",
+text: "Aku juga ga mau kamu kenal aku cuma dari versi lama aku, aku mau kamu kenal aku yang lebih baik dari sebelum aku kenal kamu"
+},
+{
+title: "Aku sekarang",
+text: "Aku udah capek jadi orang yang ga serius. Aku udah lewatin itu semua."
+},
+{
+title: "Dan kamu",
+text: "Dari semua yang pernah aku temuin… kamu yang paling bikin aku pengen berhenti, bukan dalam perbandingan apapun , tapi rasa yang aku rasain setelah aku kenal kamu, u gave me peace"
+},
+{
+title: "Aku ga maksa",
+text: "Aku ga butuh kamu langsung percaya. Aku cuma minta kesempatan buat buktiin, buktiin kalo kamu sama aku bakalan bahagia, dan kita bakalan selalu membahagiakan"
+},
+{
+title: "Kalau kamu masih ragu",
+text: "Gapapa… beneran gapapa. Aku bakalan terus ngeyakinin kamu denagan cara apapun, sampe kamu bener bener yakin banget sama aku"
+},
+{
+title: "Karena jujur",
+text: "Aku ga lagi cari banyak orang… aku cuma pengen satu orang yang aku jaga."
+},
+{
+title: "",
+text: "Dan orang itu… kamu.",
+img: "https://iili.io/qWzDocG.jpg"
+}
+];
+
+let index=0;
+const container=document.getElementById("container");
+
+function showStep(){
+  container.innerHTML="";
+
+  if(index < steps.length){
+    const step = steps[index];
+
+    const card=document.createElement("div");
+    card.className="card";
+
+    card.innerHTML=`
+      ${step.img ? `<img src="${step.img}" class="hero-img">` : ""}
+      <h2>${step.title}</h2>
+      <div class="text"></div>
+      <button onclick="next()">lanjut</button>
+    `;
+
+    container.appendChild(card);
+
+    const textEl = card.querySelector(".text");
+    typeText(textEl, step.text);
+
+    index++;
+  } else {
+    container.innerHTML = `<div class="final">I love you, more the i love my self \n stay with me yaaa sayaaangg kuu ❤️❤️❤️❤️❤️❤️</div>`;
+  }
+}
+
+function next(){
+  showStep();
+}
+
+showStep();
+</script>
+
+</body>
+</html>
