@@ -246,7 +246,7 @@ const SECRET_KEY = "celacucayangvira";
 
 function unlock(){
   const inputEl = document.getElementById("keyInput");
-  const input = inputEl.value.toLowerCase();
+ const input = inputEl.value.trim().toLowerCase();
   const audio = document.getElementById("bgm");
 
   if(input === SECRET_KEY){
