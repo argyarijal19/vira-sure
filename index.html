@@ -215,7 +215,8 @@ const SECRET_KEY = "viracantikbanget";
 
 function unlock(){
   const input = document.getElementById("keyInput").value.trim().toLowerCase();
-
+  
+  console.log("button klik", input)
   if(input === SECRET_KEY){
     document.getElementById("lockScreen").classList.add("fade");
     document.getElementById("bgm").play();
